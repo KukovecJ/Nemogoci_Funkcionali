@@ -1,5 +1,5 @@
 import Data_Types
-import qualified Functions as F
+import Functions
 import Data.Bool
 
 coerce :: Bit -> Natural
@@ -21,3 +21,8 @@ proj n = \c -> coerce(c n)
 
 pn :: Natural -> Integer
 pn n = proj n (\i -> if mod i 2 == 0 then One else Zero)
+
+predikat:: Cantor -> Bool
+predikat c = (c 0 == Zero)
+
+a = find predikat

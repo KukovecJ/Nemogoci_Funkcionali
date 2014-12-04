@@ -1,6 +1,7 @@
 module Functions where
 
 import Data_Types
+import Find_X
 
 -- | The functions "exists" and "forall" test a given logical predicate
 -- on the Cantor set. The function "exists" evaluates to
@@ -13,15 +14,17 @@ exists, forall :: (Cantor -> Bool) -> Bool
 -- "find" evaluates to some sequence satisfying the predicate.
 find :: (Cantor -> Bool) -> Cantor
 
-find = find_i
+find = find_v
+
+-- | The function "find_i" determines, that if a solution beginning with Zero exists, 
+-- the result must also begin with Zero. Otherwise, it must begin with One.
+find_i :: (Cantor -> Bool) -> Cantor
+find_i p = if exists ( \a -> p ( Zero # a ))
+            then Zero # find_i ( \a -> p ( Zero # a ) )
+			else One  # find_i ( \a -> p ( One  # a ) )
 
 exists p = p ( find ( \a -> p a ) )
 forall p = not ( exists ( \a -> not ( p a ) ) )
-
-find_i :: (Cantor -> Bool) -> Cantor
-find_i p = if exists ( \a -> p ( Zero # a ) )
-            then Zero # find_i ( \a -> p ( Zero # a ) )
-			else One  # find_i ( \a -> p ( One  # a ) )
 
 -- | The function "search" expands the functionality of "find" and returns a Just value if the result of "find", which always yields a value in the Cantor space, satisfies the predicate and Nothing otherwise.
 search :: (Cantor -> Bool) -> Maybe Cantor

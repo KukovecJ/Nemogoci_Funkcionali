@@ -1,6 +1,6 @@
 module Data_Types where
 
-data Bit = Zero | One deriving (Eq)
+data Bit = Zero | One deriving (Eq,Show)
 
 -- unsigned int tipi kot Word niso poljubno veliki
 type Natural = Integer 
