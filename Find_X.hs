@@ -25,3 +25,12 @@ find_iv p = let leftbranch = Zero # find_iv(\a -> p(Zero # a))
 find_v :: (Cantor -> Bool) -> Cantor
 find_v p = \n ->  if q n (find_v(q n)) then Zero else One
 		where q n a = p(\i -> if i < n then find_v p i else if i == n then Zero else a(i-n-1))
+
+-- | Desc.		
+find_vi :: (Cantor -> Bool) -> Cantor
+find_vi p = b
+		where b = \n -> if q n (find_vi(q n)) then Zero else One
+        q n a = p(\i -> if i < n then b i else if i == n then Zero else a(i-n-1))
+
+
+find_vii :: (Cantor -> Bool) -> Cantor
