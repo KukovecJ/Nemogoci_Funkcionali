@@ -7,6 +7,8 @@ import Data_Types
 -- one of the find functions as defined in Find_X.
 newtype S a = S {find :: (a -> Bool) -> a}
 
+-- e.g. iskalnik = S (find_v)
+
 -- | Existential and universal quantifiers defined for searchable sets.
 exists_mon, forall_mon :: S a -> (a -> Bool) -> Bool
 exists_mon xs p = p(find xs p)

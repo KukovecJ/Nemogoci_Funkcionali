@@ -11,7 +11,9 @@ import Find_X
 exists, forall :: (Cantor -> Bool) -> Bool
 
 -- | Given that "exists" evaluates to One,
--- "find" evaluates to some sequence satisfying the predicate.
+-- "find" evaluates to some element satisfying the predicate.
+-- Even if it evaluates to Zero, "find" will always return an element of the cantor set. Therefore,
+-- elements yielded by "find" must additionally be tested whether or not they satisfy the predicate.
 find :: (Cantor -> Bool) -> Cantor
 
 find = find_v
