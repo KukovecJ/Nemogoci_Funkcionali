@@ -16,9 +16,9 @@ exists, forall :: (Cantor -> Bool) -> Bool
 -- elements yielded by "find" must additionally be tested whether or not they satisfy the predicate.
 find :: (Cantor -> Bool) -> Cantor
 
-find = find_v
+find = find_vii
 
--- | The function "find_i" determines, that if a solution beginning with Zero exists, 
+-- | The function "find_i" determines, that if a solution beginning with Zero exists,
 -- the result must also begin with Zero. Otherwise, it must begin with One.
 find_i :: (Cantor -> Bool) -> Cantor
 find_i p = if exists ( \a -> p ( Zero # a ))

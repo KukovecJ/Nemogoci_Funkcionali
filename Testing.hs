@@ -1,4 +1,4 @@
-import Data_Types
+ import Data_Types
 import Functions
 import Data.Bool
 
