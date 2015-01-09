@@ -1,13 +1,13 @@
-import Data_Types
 import Functions
 import Data.Bool
 import SearchMonad
-
+import Data.Maybe
 
 type N = Integer
 type Baire = N -> N
 data T = Fork [(N,T)]
 
+-- Programming exercises.
 
 cantorTree :: T
 cantorTree = Fork [(0, cantorTree), (1, cantorTree)]
@@ -16,7 +16,7 @@ unboundedBreadthTree :: N -> T
 unboundedBreadthTree n = Fork [(i, unboundedBreadthTree(n+1)) | i <- [0..n]]
 
 
--- Naloga 1:
+-- Q2 (a):
 findT   :: T -> (Baire -> Bool) -> Baire
 existsT :: T -> (Baire -> Bool) -> Bool
 
@@ -43,8 +43,56 @@ mt = myTree 0
 -- Example.
 a = findT cantorTree pr
 
--- Naloga 2:
-findT'    :: T -> (Baire -> Bool) -> Baire
-forsomeT' :: T -> (Baire -> Bool) -> Bool
 
-forsomeT' t p = p(findT' t p)
+-- Q2 (b):
+(#) :: N -> Baire -> Baire
+(n # a)    0  = n
+(n # a) i  = a (i-1)
+
+findT'    :: T -> (Baire -> Bool) -> Baire
+
+existsT'  :: T -> (Baire -> Bool) -> Bool
+existsT' t p = p(findT' t p)
+
+myMatch :: T -> N -> Maybe T
+myMatch (Fork ((i, tree) :  [])) n = if i == n then Just tree else Nothing
+myMatch (Fork ((i, tree) : xs)) n = let t = myMatch (Fork ((i, tree) : [])) n in
+                                    if isJust t then t else myMatch (Fork xs) n
+
+findBranch :: T -> (N -> Bool)-> N
+findBranch (Fork ((i, tree) : [])) p = i
+findBranch (Fork ((i, tree) : xs)) p = if p i then i else findBranch (Fork xs) p
+
+findT' originalTree p = x # a
+    where x = findBranch originalTree (\x -> existsT' (fromJust $ myMatch originalTree x) (\a -> p (x # a)))
+          a = findT' (fromJust $ myMatch originalTree x) (\a -> p(x # a))
+
+-- Examples.
+b' = findT' cantorTree pr
+b = findT' mt pr
+
+
+-- Q2 (c):
+
+findT''    :: T -> (Baire -> Bool) -> Baire
+
+existsT'' :: T -> (Baire -> Bool) -> Bool
+existsT'' t p = p(findT'' t p)
+
+fork :: N -> Baire -> Baire -> Baire
+fork x l r i   | i == 0    = x
+               | odd i     = l((i-1) `div` 2)
+               | otherwise = r((i-2) `div` 2)
+
+findT'' originalTree p = fork x l r
+    where x = findBranch originalTree (\x -> let myTree = (fromJust $ myMatch originalTree x) in
+                                             existsT'' myTree (\l -> existsT'' myTree (\r -> p(fork x l r))))
+          tx = fromJust $ myMatch originalTree x
+          l = findT'' tx (\l -> existsT'' tx (\r -> p(fork x l r)))
+          r = findT'' tx (\r -> p(fork x l r))
+
+-- Examples.
+threetree =  Fork [(0, threetree), (1, threetree), (2, threetree)]
+
+c = findT'' cantorTree pr
+c' = findT'' threetree (\b -> b 12 == 2)
