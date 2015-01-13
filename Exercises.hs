@@ -26,12 +26,10 @@ shiftPredicate :: (Baire->Bool)-> N -> (Baire -> Bool)
 shiftPredicate p x = \sequence -> p (\n -> if n == 0 then x else sequence (n-1))
 
 
-findTaux (Fork ((i, tree) : [])) p = \n -> if n == 0 then i else findTaux tree (shiftPredicate p i) (n-1)
-findTaux (Fork ((i, tree) : xs)) p = let solution = findTaux (Fork ((i, tree) : [])) p
+findT (Fork ((i, tree) : [])) p = \n -> if n == 0 then i else findT tree (shiftPredicate p i) (n-1)
+findT (Fork ((i, tree) : xs)) p = let solution = findT (Fork ((i, tree) : [])) p
                                      in \n -> if p solution then solution n
-                                              else findTaux (Fork xs) p n
-
-findT = findTaux
+                                              else findT (Fork xs) p n
 
 pr :: ( Baire -> Bool)
 pr b = b 12 == 1
