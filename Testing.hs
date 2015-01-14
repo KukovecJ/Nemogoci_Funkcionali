@@ -1,7 +1,8 @@
- import Data_Types
+import Data_Types
 import Functions
 import Data.Bool
 
+-- * Testing
 coerce :: Bit -> Natural
 coerce Zero = 0
 coerce One = 1
@@ -17,6 +18,7 @@ h a = if a 7 == Zero
       else if a 4 == One  then coerce(a 15) else coerce(a  8)
 
 proj :: Natural -> (Cantor -> Integer)
+
 proj n = \c -> coerce(c n)
 
 pn :: Natural -> Integer
