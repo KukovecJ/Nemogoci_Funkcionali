@@ -16,7 +16,7 @@ module SearchMonad where
 import Data_Types
 
 
--- | S over some type a (e.g. Cantor) will have exactly one field, which represents one of the find functions as defined in Find_X.
+-- | S over some type a (e.g. Cantor) is a record with exactly one field, which represents its find function (e.g. find_i defined in Find_X for Cantor spaces).
 newtype S a = S {find :: (a -> Bool) -> a}
 
 -- e.g. iskalnik = S (find_v)
@@ -33,12 +33,12 @@ instance Monad S where
   xs >>= f = bigUnion(image f xs)
 
 
--- | Cannonical mapping of an element into a searchable set. Any predicate tested only on a singelton {x} must always return x since it must return something even if the predicate is not satisfied.
+-- | Cannonical mapping of an element into a searchable set. Any predicate tested on a singelton {x} must always return x since it must return something even if the predicate is not satisfied.
 singleton :: a -> S a
 singleton x = S (\p -> x)
 
 
--- | Modified 'find' which returns Nothing if the predicate is not satisfied for any element.
+-- | Modified 'find' which returns Nothing if the predicate is not satisfied for any element and a Just value otherwise.
 search :: S a -> (a -> Bool) -> Maybe a
 search xs p =
     let
@@ -57,7 +57,7 @@ doubleton :: a -> a -> S a
 doubleton x y = S (\p -> if p x then x else y)
 
 
--- | Given that a subset of a is searchable, the f-image is also searchable. One can find an element in the f-image satisfying a given predicate q by searching the original set for elements satisfying a predicate testing whether q holds for f(x) where x is from a.
+-- | Given that a subset of a is searchable, the f-image is also searchable. One can find an element in the f-image satisfying a given predicate q by searching the original set for elements satisfying a predicate testing whether q holds for f(x) where x is of type a.
 image :: (a -> b) -> S a -> S b
 image f xs = S (\q -> f(find xs (\x -> q(f x))))
 

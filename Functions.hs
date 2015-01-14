@@ -16,19 +16,21 @@ module Functions where
 import Data_Types
 import Find_X
 
--- * Function 'find', 'forall' (universal  quantification) and 'exists' (exsistential quantification)
+-- * Functions 'find', 'forall' (universal  quantification) and 'exists' (exsistential quantification)
 
--- | The functions 'exists' and 'forall' test a given logical predicate on the Cantor set. The function 'exists' evaluates to One if a binary sequence satisfying the predicate exists and to Zero otherwise. The function 'forall' evaluates to One if every binary sequence satisfies the predicate and to Zero otherwise.
-exists, forall :: (Cantor -> Bool) -> Bool
+-- | The function 'exists' evaluates to 'Data_types.One' if a binary sequence satisfying the predicate exists and to 'Data_types.Zero' otherwise.
+exists :: (Cantor -> Bool) -> Bool
+-- | The function 'forall' evaluates to 'Data_types.One' if every binary sequence satisfies the predicate and to 'Data_types.Zero' otherwise.
+forall :: (Cantor -> Bool) -> Bool
 
--- | Given that 'exists' evaluates to One, 'find' evaluates to some element satisfying the predicate. Even if it evaluates to Zero, 'find' will always return an element of the cantor set. Therefore, elements yielded by 'find' must additionally be tested whether or not they satisfy the predicate.
+-- | Given that 'exists' evaluates to 'Data_types.One', 'find' evaluates to some element satisfying the predicate. Even if it evaluates to 'Data_types.Zero', 'find' will always return an element of the Cantor set. Therefore, elements yielded by 'find' must additionally be tested whether or not they satisfy the predicate.
 find :: (Cantor -> Bool) -> Cantor
 
--- | Choice of function 'find'.
+-- Current choice of 'find', for testing purposes.
 find = find_vii
 
 
--- | The function 'find_i' determines, that if a solution beginning with Zero exists, the result must also begin with Zero. Otherwise, it must begin with One.
+-- | The function 'find_i' determines that if a solution beginning with 'Data_types.Zero' exists, the result must also begin with 'Data_Types.Zero'. Otherwise, it must begin with 'Data_types.One'.
 find_i :: (Cantor -> Bool) -> Cantor
 find_i p = if exists ( \a -> p ( Zero # a ))
             then Zero # find_i ( \a -> p ( Zero # a ) )
@@ -46,41 +48,41 @@ search p = if exists ( \a -> p a )
 		else Nothing
 
 
--- | Tests function equality. Two functions are equal iff for all x in the domain the values f(x) and g(x) are equal.
+-- | Tests function equality. Two functions f and g are equal iff the values f(x) and g(x) are equal for all x in the domain.
 equal :: Eq y => (Cantor -> y) -> (Cantor -> y) -> Bool
 equal f g = forall ( \a -> f a == g a )
 
 
--- | Definition of implication.
+-- | The definition of implication.
 implies :: Bool -> Bool -> Bool
 implies p q = not p || q
 
 
--- | The value of eq n a b evaluates to True if the sequences a and b match up until the n-th term and to False otherwise.
+-- | The value of 'eq' n a b evaluates to True if the sequences a and b match up until the n-th term and to False otherwise.
 eq :: Natural -> Cantor -> Cantor -> Bool
 eq 0 a b = True
 eq n a b = a (n-1) == b (n-1) && eq (n-1) a b
 
 
--- | Given a boolean sequence p, the function 'least' returns the index of the first term of p that equals True.
+-- | Given a Boolean sequence p, the function 'least' returns the index of the first term of p that equals True.
 least :: (Natural -> Bool) -> Natural
 least p = if p 0 then 0 else 1 + least(\n -> p (n + 1))
 
 
--- | Assuming f is a function defined on the Cantor space, 'modulus' f returns the smallest natural number n such that for any two elements of the Cantor space a and b, f(a) = f(b) is implied by a i = b i for all i <= n.
+-- | Assuming f is an Integer-valued function defined on the Cantor space, 'modulus' f returns the smallest natural number n, such that for any two elements of the Cantor space a and b, a i == b i for all i <= n 'implies' f(a) = f(b).
 modulus :: (Cantor -> Integer) -> Natural
 modulus f = least(\n -> forall(\a -> forall(\b -> eq n a b `implies` (f a == f b))))
 
 
--- * Implemetations of functions 'exists' and 'find' via function 'search'
--- | Alternative implementations of the functions 'exists' and 'find' given that a 'search' function were to be implemented independently.
+-- * Alternative implementations of the functions 'exists' and 'find' given that a 'search' function were to be implemented independently.
+-- | The function takes the result produced by the now predefined 'search' and maps any Just value to True and Nothing to False.
 exists_search :: (Cantor -> Bool) -> Bool
 exists_search p = let x = search (\a -> p a) in
                   case x of
                     Nothing -> False
                     Just _ -> True
 
-
+-- | The function 'find_search' is an analogy to 'find_i', where 'exists_search' replaces 'exists'.
 find_search :: (Cantor -> Bool) -> Cantor
 find_search p = if exists_search ( \a -> p ( Zero # a ) )
             then Zero # find_search ( \a -> p ( Zero # a ) )
