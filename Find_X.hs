@@ -1,14 +1,14 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 {-|
-Modul: Find_X
 
-Opis:  Modul iskalnih funkcij po Cantorjevih množicah.
+Module: Find_X
 
-Mentorja: asist. dr. Matija Pretnar in prof. dr. Andrej Bauer.
+Menthors: prof. dr. Andrej Bauer and asist. dr. Matija Pretnar
 
-Avtorja: Petra Poklukar, Jure Kukovec
+Authors: Petra Poklukar, Jure Kukovec
 
+Various improved versions of 'Functions.find_i' defined in "Functions".
 -}
 
 module Find_X where
@@ -55,4 +55,3 @@ find_vii :: (Cantor -> Bool) -> Cantor
 find_vii p = b
     where b = id'(\n -> if q n (find_vii(q n)) then Zero else One)
           q n a = p(\i -> if i < n then b i else if i == n then Zero else a(i-n-1))
-
