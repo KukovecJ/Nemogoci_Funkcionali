@@ -1,14 +1,14 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 {-|
-Modul: SearchMonad
 
-Opis:  Monada iskalnih množic.
+Module: SearchMonad
 
-Mentorja: asist. dr. Matija Pretnar in prof. dr. Andrej Bauer.
+Menthors: prof. dr. Andrej Bauer and asist. dr. Matija Pretnar
 
-Avtorja: Petra Poklukar, Jure Kukovec
+Authors: Petra Poklukar, Jure Kukovec
 
+Contains the monad for arbitrary searchable spaces.
 -}
 
 module SearchMonad where

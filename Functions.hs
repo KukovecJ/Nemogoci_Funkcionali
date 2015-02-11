@@ -1,14 +1,14 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 {-|
-Modul: Functions
 
-Opis:  Modul funkcij za testiranje iskalnih funkcij po Cantorjevih množicah.
+Module: Functions
 
-Mentorja: asist. dr. Matija Pretnar in prof. dr. Andrej Bauer.
+Menthors: prof. dr. Andrej Bauer and asist. dr. Matija Pretnar
 
-Avtorja: Petra Poklukar, Jure Kukovec
+Authors: Petra Poklukar, Jure Kukovec
 
+Basic functions for searching 'Data_Types.Cantor' spaces and auxiliary functions for efficiency testing.
 -}
 
 module Functions where

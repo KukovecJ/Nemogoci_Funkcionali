@@ -1,14 +1,13 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 {-|
-Modul: Data_Types
+Module      : Data_Types
 
-Opis:  Definicija Cantorjevega prostora.
+Menthors    : prof. dr. Andrej Bauer and asist. dr. Matija Pretnar
 
-Mentorja: asist. dr. Matija Pretnar in prof. dr. Andrej Bauer.
+Authors     : Petra Poklukar, Jure Kukovec
 
-Avtorja: Petra Poklukar, Jure Kukovec
-
+Definitons of fundamental datatypes used in "SearchMonad", "Find_X" and "Functions".
 -}
 
 module Data_Types where
